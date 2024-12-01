@@ -64,37 +64,26 @@ def fetch_question(request):
 from django.core.exceptions import ObjectDoesNotExist
 
 def fetch_next_question(request):
-    """
-    Fetch the next question sequentially.
-    Pass the `current_question_id` in the query parameter to get the next question.
-    """
     try:
-        # Get current question ID from the query parameter
         current_question_id = request.GET.get('current_question_id')
 
-        # Fetch the next question
         if current_question_id:
-            try:
-                next_question = Question.objects.filter(id__gt=current_question_id).order_by('id').first()
-            except ObjectDoesNotExist:
-                next_question = None
+            next_question = Question.objects.filter(id__gt=current_question_id).order_by('id').first()
         else:
-            # Start with the first question if no ID is provided
             next_question = Question.objects.order_by('id').first()
 
         if not next_question:
             return JsonResponse({"message": "No more questions available."}, status=200)
 
-        # Return the question data
         return JsonResponse({
             "id": next_question.id,
             "question": next_question.question,
-            "answer": next_question.answer,
             "difficulty": next_question.difficulty,
         })
 
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)
+
 
 
 
