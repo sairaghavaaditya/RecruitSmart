@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'user_dashboard',
-    'sample',
     'corsheaders',
     'admin_dashboard',
     'rest_framework',
